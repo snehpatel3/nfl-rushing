@@ -1,20 +1,16 @@
 <div class="container">
   <div class="row">
-    <select class="col-md-6 form-control" #select (change)='onSelected(select.value)' [value]=''>
+    <select class="col-md-4 form-control" #select (change)='onSelected(select.value)' [value]=''>
       <option class="option" *ngFor='let option of dropDown' [value]='option.val'>{{option.text_val}}</option>
     </select>
-  </div>
-</div>
-<div class="container">
-  <div class="row">
-    <div class="col-md-6 input-group input-group-lg">
+    <div class="col-md-4 input-group input-group-lg">
       <div class="input-group-prepend">
-        <span class="input-group-text" id="inputGroup-sizing-lg">Filter</span>
+        <span class="input-group-text" id="inputGroup-sizing-sm">Filter</span>
       </div>
-      <input type="text" #search (keyup)='triggerSearch(search.value)' class="form-control" aria-label="Large" aria-describedby="inputGroup-sizing-sm" placeholder="Enter player name.">
+      <input type="text" #search (keyup)='triggerSearch(search.value)' class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="Enter player name.">
     </div>
-    <button class="float-right col-md-2 btn btn-success" (click)="export();"><i class="glyphicon glyphicon-download-alt"></i>Export</button>
-  </div> 
+    <button class="float-right col-md-4 btn btn-success" (click)="export();"><i class="fas fa-download"></i>Export</button>
+  </div>
 </div>
 <div class="container">
   <table class="table table-borderless">
