@@ -11,8 +11,7 @@
       <div class="input-group-prepend">
         <span class="input-group-text" id="inputGroup-sizing-lg">Filter</span>
       </div>
-      <input type="text" [(ngModel)]="player_name" class="form-control" aria-label="Large" aria-describedby="inputGroup-sizing-sm" placeholder="Enter player name.">
-      <button class="btn btn-primary" (click)="apply();"><i class="glyphicon glyphicon-filter"></i>Apply</button> 
+      <input type="text" #search (keyup)='triggerSearch(search.value)' class="form-control" aria-label="Large" aria-describedby="inputGroup-sizing-sm" placeholder="Enter player name.">
     </div>
     <button class="float-right col-md-2 btn btn-success" (click)="export();"><i class="glyphicon glyphicon-download-alt"></i>Export</button>
   </div> 

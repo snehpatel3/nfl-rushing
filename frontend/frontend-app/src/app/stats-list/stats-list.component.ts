@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 
 import { ApiService } from '../api.service';
 import { RushingStatistics } from '../stats';
+import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-stats-list',
@@ -14,8 +15,6 @@ import { RushingStatistics } from '../stats';
 export class StatsListComponent implements OnInit {
   stats$: Observable<RushingStatistics[]>;
   queryParams = Object();
-  selectedColumn = '';
-  player_name = '';
   dropDown = [
     { val: '', text_val: 'Please select column to sort by'},
     { val: 'yds', text_val: 'Total Rushing Yards (Yds)' },
@@ -36,39 +35,49 @@ export class StatsListComponent implements OnInit {
     this.stats$ = this.apiService.getStatsList(params);
   }
 
-  onSelected(value: string) {
-    if (!value) return;
-    this.queryParams.sortBy = value;
-
-    (this.queryParams) && 
+  private refreshQueryParams() {
+    this.router.navigate(
+      ['.'], 
+      { relativeTo: this.activatedRoute, queryParams: this.queryParams }
+    );
+  }
+  
+  private updateQueryParams(){
     this.router.navigate([],
     {
       relativeTo: this.activatedRoute,
       queryParams: this.queryParams,
       queryParamsHandling: 'merge'
     });
-
+  
     let params = new HttpParams({fromObject: this.queryParams})
     this.stats$ = this.apiService.getStatsList(params)
   }
 
-  apply() {
-    let queryParams = Object();
+  onSelected(value: string) {
+    if (!value) {
+      delete this.queryParams.sortBy;
 
-    if (this.selectedColumn != '')  queryParams.sortBy = this.selectedColumn;
+      this.refreshQueryParams();
+      return;
+    }
 
-    if (this.player_name != '') queryParams.filterBy = this.player_name;
-    
-    (queryParams) && 
-    this.router.navigate([],
-      {
-        relativeTo: this.activatedRoute,
-        queryParams: queryParams,
-        queryParamsHandling: 'merge'
-      });
+    this.queryParams.sortBy = value;
 
-    let params = new HttpParams({fromObject: queryParams})
-    this.stats$ = this.apiService.getStatsList(params)
+    this.updateQueryParams();
+  }
+
+  triggerSearch(value: string) {
+    console.log(value);
+    if (value.length < 2) {
+      delete this.queryParams.filterBy;
+
+      this.refreshQueryParams();
+      return;
+    }
+    this.queryParams.filterBy = value;
+
+    this.updateQueryParams();
   }
 
   export() {
