@@ -1,0 +1,8 @@
+# Ignore pyc files.
+*.pyc
+
+# Ignore DS Store
+.DS_Store
+
+# Ignore data folder
+data/
