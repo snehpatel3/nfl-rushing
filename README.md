@@ -57,6 +57,7 @@ If you have any questions regarding requirements, do not hesitate to email your 
 #### Prerequisite requirements
 1. Ensure that you have a Docker engine running on your machine.
 2. Ensure that `docker-compose` is installed.
+3. Ensure that ports 8080 and 5432 are not occupied on your machine.
 You can download and install the Docker engine [here](https://docs.docker.com/engine/install/).
 #### Starting the application
 1. `cd` into the root directory of this project (the one containing `docker-compose.yml`).
