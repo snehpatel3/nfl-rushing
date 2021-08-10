@@ -54,4 +54,11 @@ We will evaluate you on your ability to solve the problem defined in the require
 If you have any questions regarding requirements, do not hesitate to email your contact at theScore for clarification.
 
 ### Installation and running this solution
-... TODO
+#### Prerequisite Requirements
+1. Ensure that you have a Docker engine running on your machine.
+2. Ensure that `docker-compose` is installed.
+You can download and install the Docker engine [here](https://docs.docker.com/engine/install/).
+#### Starting the application
+1. `cd` into the root directory of this project (the one containing `docker-compose.yml`).
+2. Run `docker-compose up --build` (it should take 2-3 mins to build the image and then spin up the docker containers). 
+3. The app should be runnong on http://localhost:8080/.
