@@ -13,9 +13,7 @@ def clean_data(data):
         record['Lng'] = int(record['Lng'])
 
 def value_string(column_names):
-    '''
-        Utility function for formatting insertion string
-    '''
+    '''Utility function for formatting insertion string'''
     columns = column_names.split(',')
     values = ''
     for column_name in columns:
@@ -26,9 +24,7 @@ def value_string(column_names):
     return values
 
 def mappings(record):
-    '''
-        Utility function for mapping record attribute names to model attributes 
-    '''
+    '''Utility function for mapping record attribute names to model attributes'''
     mappings = {}
     mappings['player'] = record['Player']
     mappings['team'] = record['Team']
