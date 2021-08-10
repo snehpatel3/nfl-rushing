@@ -54,7 +54,7 @@ We will evaluate you on your ability to solve the problem defined in the require
 If you have any questions regarding requirements, do not hesitate to email your contact at theScore for clarification.
 
 ### Installation and running this solution
-#### Prerequisite Requirements
+#### Prerequisite requirements
 1. Ensure that you have a Docker engine running on your machine.
 2. Ensure that `docker-compose` is installed.
 You can download and install the Docker engine [here](https://docs.docker.com/engine/install/).
