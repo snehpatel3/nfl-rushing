@@ -61,4 +61,4 @@ You can download and install the Docker engine [here](https://docs.docker.com/en
 #### Starting the application
 1. `cd` into the root directory of this project (the one containing `docker-compose.yml`).
 2. Run `docker-compose up --build` (it should take 2-3 mins to build the image and then spin up the docker containers). 
-3. The app should be runnong on http://localhost:8080/.
+3. The app should be running on http://localhost:8080/.
