@@ -19,5 +19,6 @@ from app import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    # Map api calls of pattern api/list to hit the RushingStatisticsList view
     path('api/list', views.RushingStatisticsList.as_view(), name='statistics-list')
 ]

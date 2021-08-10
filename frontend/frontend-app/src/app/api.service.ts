@@ -11,6 +11,7 @@ export class ApiService {
 
   constructor(private http: HttpClient) { }
 
+  // Make GET request to api endpoint for fetching stats
   public getStatsList(queryParams?: HttpParams): Observable<RushingStatistics[]> {
     return this.http.get<RushingStatistics[]>(`${this.API_URL}/list`, {params: queryParams});
   }

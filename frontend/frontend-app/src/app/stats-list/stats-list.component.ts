@@ -13,6 +13,7 @@ import { ThrowStmt } from '@angular/compiler';
   styleUrls: ['./stats-list.component.css']
 })
 export class StatsListComponent implements OnInit {
+  // Declare state variables
   stats$: Observable<RushingStatistics[]>;
   queryParams = Object();
   dropDown = [
@@ -28,12 +29,14 @@ export class StatsListComponent implements OnInit {
   constructor(private apiService: ApiService, private router: Router, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
+    // Get any possible query params and make call to api
     this.activatedRoute.queryParams.subscribe(params => {
       let http_params = new HttpParams({fromObject: params});
       this.getStatsList(http_params);
     });
   }
 
+  // Make request to api via the service
   private getStatsList(params?: HttpParams){
     this.stats$ = this.apiService.getStatsList(params);
   }
@@ -54,17 +57,20 @@ export class StatsListComponent implements OnInit {
     });
   
     let params = new HttpParams({fromObject: this.queryParams})
+    // Make call to api 
     this.stats$ = this.apiService.getStatsList(params)
   }
 
   onSelected(value: string) {
     if (!value) {
+      // Do not include query parameters for sorting
       delete this.queryParams.sortBy;
 
       this.refreshQueryParams();
       return;
     }
-
+    
+    // Set column to sort by
     this.queryParams.sortBy = value;
 
     this.updateQueryParams();
@@ -72,11 +78,14 @@ export class StatsListComponent implements OnInit {
 
   triggerSearch(value: string) {
     if (value.length < 2) {
+      // Do not include query parameters for filtering if user has only keyed in 1 character
       delete this.queryParams[this.filterValue];
 
       this.refreshQueryParams();
       return;
     }
+
+    // Include query parameters for filtering if user has keyed in at least 2 characters
     this.queryParams[this.filterValue] = value;
 
     this.updateQueryParams();
@@ -87,6 +96,7 @@ export class StatsListComponent implements OnInit {
       this.isDisabled = true;
       return;
     }
+    // Enable filter input once filter is selected
     this.isDisabled = false;
     this.filterValue = value;
   }
@@ -96,13 +106,16 @@ export class StatsListComponent implements OnInit {
   }
 
   private buildCsv(data_observable: Observable<RushingStatistics[]>){
+    // Subscribe to the current dataset
     data_observable.subscribe((data) => {
+      // Build csv for the current dataset
       let csv = "Stat ID,Player Name,Team,Position,Att,Att/G,Yds,Avg,Yds/G,TD,Lng,1st,1st%,20+,40+,FUM\n";
       data.forEach((record) => {
         let values = Object.values(record);
         let line = values.join(',');
         csv += line + '\n';
       });
+      // Automatically trigger download
       this.triggerDownload(csv);
     });
   }

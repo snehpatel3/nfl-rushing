@@ -2,7 +2,7 @@ import json
 import psycopg2
 
 def clean_data(data):
-    '''Cleans the json data'''
+    '''Cleans the json data by removing string versions of integer/float data'''
     for record in data:
         if type(record['Yds']) is str and ',' in record['Yds']:
             record['Yds'] = record['Yds'].replace(',', '')
@@ -13,6 +13,9 @@ def clean_data(data):
         record['Lng'] = int(record['Lng'])
 
 def value_string(column_names):
+    '''
+        Utility function for formatting insertion string
+    '''
     columns = column_names.split(',')
     values = ''
     for column_name in columns:
@@ -23,6 +26,9 @@ def value_string(column_names):
     return values
 
 def mappings(record):
+    '''
+        Utility function for mapping record attribute names to model attributes 
+    '''
     mappings = {}
     mappings['player'] = record['Player']
     mappings['team'] = record['Team']
@@ -48,9 +54,12 @@ if __name__ == '__main__':
     connection = psycopg2.connect(dbname='postgres', user='postgres', password='postgres', host='db', port='5432')
     table_name = 'app_rushingstatistic'
     cursor = connection.cursor()
+
+    # Get current entries in the table
     cursor.execute("SELECT * from " + table_name)
     result = cursor.fetchall()
 
+    # Check if table is populated
     if len(result) == 0:
         print('No entries in table.')
         # Open json file containing rushing stats

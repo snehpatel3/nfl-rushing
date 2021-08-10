@@ -1,6 +1,7 @@
 version: "3.9"
    
 services:
+  # Service for starting db container
   db:
     container_name: pg_container
     image: postgres
@@ -15,9 +16,11 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+  # Service for starting api container
   web:
     container_name: api_container
     build: .
+    # Make any necessary migrations and populat data if not done already then start server
     command: >
         sh -c "python manage.py makemigrations app && 
                python manage.py migrate && 
@@ -30,6 +33,7 @@ services:
     depends_on:
       db:
         condition: service_healthy
+  # Service for starting frontend app
   frontend:
     container_name: frontend_container
     build: frontend 

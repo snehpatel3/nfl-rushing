@@ -1,6 +1,6 @@
 from django.db import models
 
-# Create your models here.
+# Model for holding each rushing statistic
 class RushingStatistic(models.Model):
     player = models.CharField(max_length=100)
     team = models.CharField(max_length=5)
