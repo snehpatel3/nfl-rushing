@@ -16,21 +16,22 @@ class RushingStatisticsList(APIView):
         if not params:
             stats = RushingStatistic.objects.all()
         else:
-            name = ''
-            if 'filterBy' in params:
-                name = re.sub(r'[^A-Za-z0-9 ]+', '', params['filterBy'][0])
-                name = name.strip()
+            name, column_name, field_name = '', '', ''
+            for key in params:
+                if key == 'sortBy':
+                    column_name = params['sortBy'][0]
+                elif key in [f.name for f in RushingStatistic._meta.get_fields()]:
+                    field_name = key
+                    name = re.sub(r'[^A-Za-z0-9 ]+', '', params[key][0])
+                    name = name.strip()
 
-            column_name = ''
-            if 'sortBy' in params:
-                column_name = params['sortBy'][0]
-
+            field_name_icontains = field_name + '__icontains'
             if column_name != '' and name != '':
-                stats = RushingStatistic.objects.filter(player__icontains=name).order_by('-' + column_name)
+                stats = RushingStatistic.objects.filter(**{field_name_icontains: name}).order_by('-' + column_name)
             elif column_name != '':
                 stats = RushingStatistic.objects.order_by('-' + column_name)
             elif name != '':
-                stats = RushingStatistic.objects.filter(player__icontains=name)
+                stats = RushingStatistic.objects.filter(**{field_name_icontains: name})
 
         serializer = RushingStatisticSerializer(stats, many=True)
         return Response(serializer.data)

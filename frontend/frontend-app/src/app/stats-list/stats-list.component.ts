@@ -21,6 +21,9 @@ export class StatsListComponent implements OnInit {
     { val: 'lng', text_val: 'Longest Rush (Lng)' },
     { val: 'td', text_val: 'Total Rushing Touchdowns (TD)' }
   ];
+  isDisabled = true;
+  filterValue: string;
+  filterOptions = [ {val: 'player', text_val: 'Player Name'} ];
 
   constructor(private apiService: ApiService, private router: Router, private activatedRoute: ActivatedRoute) { }
 
@@ -68,16 +71,24 @@ export class StatsListComponent implements OnInit {
   }
 
   triggerSearch(value: string) {
-    console.log(value);
     if (value.length < 2) {
-      delete this.queryParams.filterBy;
+      delete this.queryParams[this.filterValue];
 
       this.refreshQueryParams();
       return;
     }
-    this.queryParams.filterBy = value;
+    this.queryParams[this.filterValue] = value;
 
     this.updateQueryParams();
+  }
+
+  onFilterChange(value: string) {
+    if (!value) {
+      this.isDisabled = true;
+      return;
+    }
+    this.isDisabled = false;
+    this.filterValue = value;
   }
 
   export() {
