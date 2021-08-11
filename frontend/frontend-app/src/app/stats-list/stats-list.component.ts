@@ -22,7 +22,8 @@ export class StatsListComponent implements OnInit {
     { val: 'lng', text_val: 'Longest Rush (Lng)' },
     { val: 'td', text_val: 'Total Rushing Touchdowns (TD)' }
   ];
-  isDisabled = true;
+  isFilterDisabled = true;
+  isOptionsCollapsed = false;
   filterValue: string;
   filterOptions = [ {val: 'player', text_val: 'Player Name'} ];
 
@@ -31,6 +32,13 @@ export class StatsListComponent implements OnInit {
   ngOnInit() {
     // Get any possible query params and make call to api
     this.activatedRoute.queryParams.subscribe(params => {
+      for (let key in params) {
+        if (key != 'sortBy') {
+          this.filterValue = key;
+          this.isFilterDisabled = false;
+          break;
+        }
+      }
       let http_params = new HttpParams({fromObject: params});
       this.getStatsList(http_params);
     });
@@ -93,11 +101,11 @@ export class StatsListComponent implements OnInit {
 
   onFilterChange(value: string) {
     if (!value) {
-      this.isDisabled = true;
+      this.isFilterDisabled = true;
       return;
     }
     // Enable filter input once filter is selected
-    this.isDisabled = false;
+    this.isFilterDisabled = false;
     this.filterValue = value;
   }
 
@@ -109,7 +117,7 @@ export class StatsListComponent implements OnInit {
     // Subscribe to the current dataset
     data_observable.subscribe((data) => {
       // Build csv for the current dataset
-      let csv = "Stat ID,Player Name,Team,Position,Att,Att/G,Yds,Avg,Yds/G,TD,Lng,1st,1st%,20+,40+,FUM\n";
+      let csv = "Id,Player Name,Team,Position,Att,Att/G,Yds,Avg,Yds/G,TD,Lng,1st,1st%,20+,40+,FUM\n";
       data.forEach((record) => {
         let values = Object.values(record);
         let line = values.join(',');

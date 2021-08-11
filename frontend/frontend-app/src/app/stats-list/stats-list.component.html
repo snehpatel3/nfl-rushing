@@ -1,63 +1,81 @@
 <div class="container">
-  <div class="row">
-    <select class="col-md-4 form-control" #select (change)='onSelected(select.value)' [value]=''>
-      <option class="option" *ngFor='let option of dropDown' [value]='option.val'>{{option.text_val}}</option>
-    </select>
-    <div class="col-md-4 input-group input-group-sm">
-      <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <i class="fas fa-filter"></i>
-        </button>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          <a class="dropdown-item" *ngFor='let option of filterOptions' (click)='onFilterChange(option.val)' style='cursor: pointer;'>{{option.text_val}}</a>
+  <button type="button" class="btn btn-outline-secondary" (click)="collapse.toggle()" [attr.aria-expanded]="!isOptionsCollapsed"
+      aria-controls="collapseExample">
+      Options
+  </button>
+<div>
+<div #collapse="ngbCollapse" [(ngbCollapse)]="!isOptionsCollapsed">
+  <div class="card">
+    <div class="card-body">
+      <div class="list-options">
+        <div class="filter-div">
+          <div class="input-group input-group-lg filter-div">
+            <div class="dropdown">
+              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-filter"></i>
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" *ngFor='let option of filterOptions' (click)='onFilterChange(option.val)' style='cursor: pointer;'>{{option.text_val}}</a>
+              </div>
+            </div>
+            <input type="text" [disabled]='isFilterDisabled' #search (keyup)='triggerSearch(search.value)' class="form-control input-lg" placeholder="Enter player name">
+          </div>
+        </div>
+        <div>
+          <select class="form-control sort-select" #select (change)='onSelected(select.value)' [value]=''>
+            <option class="option" *ngFor='let option of dropDown' [value]='option.val'>{{option.text_val}}</option>
+          </select>
+        </div>
+        <div class="export-div">
+          <button class="btn btn-secondary export-button" (click)="export();"><i class="fas fa-download"></i>  Export CSV</button>
         </div>
       </div>
-      <input type="text" [disabled]='isDisabled' #search (keyup)='triggerSearch(search.value)' class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="Enter player name.">
     </div>
-    <button class="float-right col-md-4 btn btn-secondary" (click)="export();"><i class="fas fa-download"></i>Export</button>
   </div>
 </div>
-<div class="container">
-  <table class="table table-borderless">
-    <thead class="border-bottom font-weight-bold">
-        <tr>
-            <td>Stat ID</td>
-            <td>Player Name</td>
-            <td>Team</td>
-            <td>Position</td>
-            <td>Att</td>
-            <td>Att/G</td>
-            <td>Yds</td>
-            <td>Avg</td>
-            <td>Yds/G</td>
-            <td>TD</td>
-            <td>Lng</td>
-            <td>1st</td>
-            <td>1st%</td>
-            <td>20+</td>
-            <td>40+</td>
-            <td>FUM</td>
+<div class="card">
+  <div class="card-body">
+    <table class="table table-striped">
+      <thead class="border-bottom font-weight-bold">
+          <tr>
+              <td>Id</td>
+              <td>Player Name</td>
+              <td>Team</td>
+              <td>Position</td>
+              <td>Att</td>
+              <td>Att/G</td>
+              <td>Yds</td>
+              <td>Avg</td>
+              <td>Yds/G</td>
+              <td>TD</td>
+              <td>Lng</td>
+              <td>1st</td>
+              <td>1st%</td>
+              <td>20+</td>
+              <td>40+</td>
+              <td>FUM</td>
+          </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let stat of stats$ | async">
+            <td>{{stat.id}}</td>
+            <td>{{stat.player}}</td>
+            <td>{{stat.team}}</td>
+            <td>{{stat.pos}}</td>
+            <td>{{stat.att}}</td>
+            <td>{{stat.att_g}}</td>
+            <td>{{stat.yds}}</td>
+            <td>{{stat.avg}}</td>
+            <td>{{stat.yds_g}}</td>
+            <td>{{stat.td}}</td>
+            <td>{{stat.lng}}</td>
+            <td>{{stat.first}}</td>
+            <td>{{stat.first_percentage}}</td>
+            <td>{{stat.twenty_plus}}</td>
+            <td>{{stat.forty_plus}}</td>
+            <td>{{stat.fum}}</td>
         </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let stat of stats$ | async">
-          <td>{{stat.id}}</td>
-          <td>{{stat.player}}</td>
-          <td>{{stat.team}}</td>
-          <td>{{stat.pos}}</td>
-          <td>{{stat.att}}</td>
-          <td>{{stat.att_g}}</td>
-          <td>{{stat.yds}}</td>
-          <td>{{stat.avg}}</td>
-          <td>{{stat.yds_g}}</td>
-          <td>{{stat.td}}</td>
-          <td>{{stat.lng}}</td>
-          <td>{{stat.first}}</td>
-          <td>{{stat.first_percentage}}</td>
-          <td>{{stat.twenty_plus}}</td>
-          <td>{{stat.forty_plus}}</td>
-          <td>{{stat.fum}}</td>
-      </tr>
-    </tbody>
-  </table>
+      </tbody>
+    </table>
+  </div>
 </div>

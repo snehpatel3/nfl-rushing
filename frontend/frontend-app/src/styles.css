@@ -3,3 +3,10 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 div { padding: 2px; }
+
+.list-options { display: flex; }
+.filter-div { margin: 0 25px 0 0; }
+.export-div { margin: 0 0 0 50px; text-align: center; }
+
+.sort-select { height: 60px; }
+.export-button { height: 60px; }
