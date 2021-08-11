@@ -64,3 +64,8 @@ You can download and install the Docker engine [here](https://docs.docker.com/en
 1. `cd` into the root directory of this project (the one containing `docker-compose.yml`).
 2. Run `docker-compose up --build` (it should take 2-3 mins to build the image and then spin up the docker containers). 
 3. The app should be running on http://localhost:8080/.
+
+#### Testing
+Once the containers are up and running, you can run the api tests by:
+1. run `docker exec -it api_container bash` 
+2. run `python manage.py test` inside the container
