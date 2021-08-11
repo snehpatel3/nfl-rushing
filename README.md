@@ -67,5 +67,5 @@ You can download and install the Docker engine [here](https://docs.docker.com/en
 
 #### Testing
 Once the containers are up and running, you can run the api tests by:
-1. run `docker exec -it api_container bash` 
+1. open another terminal and run `docker exec -it api_container bash` 
 2. run `python manage.py test` inside the container
